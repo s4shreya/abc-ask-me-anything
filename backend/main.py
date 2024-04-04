@@ -1,12 +1,14 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
 from fastapi.responses import JSONResponse
-from typing import Annotated
+from typing import Annotated, List
 import models
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
+from datetime import datetime
 import os
 from models import PDF
+import fitz  # PyMuPDF
 
 # creates an object/instance of FastAPI()
 app = FastAPI()
@@ -41,9 +43,22 @@ db_dependency = Annotated[Session, Depends(get_database)]
 models.Base.metadata.create_all(bind=engine)
 
 
+# extracts text from pdf file using PyMuPDF
+def extract_text_from_pdf(file_path: str) -> str:
+    text = ""
+    try:
+        with fitz.open(file_path) as doc:
+            for page in doc:
+                text += page.get_text()
+    except Exception as e:
+        print(f"Error extracting text from PDF: {e}")
+    return text
+
+
 # API endpoints of our application
 
 
+# post API to upload pdf document and save it in uploaded_pdfs folder
 @app.post("/upload/")
 async def upload_pdf(file: UploadFile = File(...)):
     # Create a directory to store the files if it doesn't exist
@@ -54,14 +69,34 @@ async def upload_pdf(file: UploadFile = File(...)):
     with open(f"uploaded_pdfs/{file.filename}", "wb") as f:
         f.write(await file.read())
 
+    # Extract text from the uploaded PDF
+    file_path = f"uploaded_pdfs/{file.filename}"
+    text = extract_text_from_pdf(file_path)
+
+    # Get file size
+    file_size = os.path.getsize(file_path)
+
     # Store file in database
     db = SessionLocal()
-    db_pdf = PDF(filename=file.filename, content=f.name)
+    db_pdf = PDF(
+        filename=file.filename, content=text, upload_date=datetime.now(), size=file_size
+    )
     db.add(db_pdf)
     db.commit()
-    db.refresh(db_pdf)
+    # db.refresh(db_pdf)
     db.close()
 
     return JSONResponse(
-        status_code=201, content={"message": "File uploaded successfully"}
+        status_code=201,
+        content={"message": "File uploaded and text extracted successfully"},
     )
+
+
+# get API to retreive all the pdfs and metadata from SQLite database
+@app.get("/pdfs/")
+def get_all_pdfs():
+    db = SessionLocal()
+    pdfs = db.query(PDF).all()
+    db.close()
+    return pdfs
+
