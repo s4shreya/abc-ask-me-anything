@@ -1,15 +1,31 @@
 import { useState } from "react";
+import axios from "axios";
 
 import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.svg";
 import { FiPlusCircle } from "react-icons/fi";
 import UploadPdfModal from "../upload pdf modal/UploadPdfModal";
+import { BASE_URL } from "../../../config";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const pdfUploadHandler = (file) => {
-    console.log(`uploaded file is: ${file}`);
+  const baseURL = BASE_URL;
+
+  const pdfUploadHandler = async (uploadedFile) => {
+    console.log(`uploaded file is: ${uploadedFile}`);
+    try {
+      const formData = new FormData();
+      formData.append("file", uploadedFile);
+      await axios.post(`${baseURL}/upload/`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("File uploaded successfully");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);

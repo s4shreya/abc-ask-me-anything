@@ -43,10 +43,15 @@ models.Base.metadata.create_all(bind=engine)
 
 # API endpoints of our application
 
+
 @app.post("/upload/")
 async def upload_pdf(file: UploadFile = File(...)):
-    # Save file to disk
-    with open(file.filename, "wb") as f:
+    # Create a directory to store the files if it doesn't exist
+    if not os.path.exists("uploaded_pdfs"):
+        os.makedirs("uploaded_pdfs")
+
+    # Save the uploaded file to the specified directory
+    with open(f"uploaded_pdfs/{file.filename}", "wb") as f:
         f.write(await file.read())
 
     # Store file in database

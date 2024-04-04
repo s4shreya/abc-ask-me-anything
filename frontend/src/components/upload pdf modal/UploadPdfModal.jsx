@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import styles from "./UploadPdfModal.module.css";
 
 const UploadPdfModal = ({ isOpen, onClose, onUpload }) => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -14,6 +15,7 @@ const UploadPdfModal = ({ isOpen, onClose, onUpload }) => {
     if (selectedFile) {
       onUpload(selectedFile);
       setSelectedFile(null);
+      fileInputRef.current.value = "";
       onClose();
     } else {
       alert("Please select a file to upload.");
@@ -37,9 +39,11 @@ const UploadPdfModal = ({ isOpen, onClose, onUpload }) => {
         </span>
         <h2>Upload PDF</h2>
         <div className={styles["input-container"]}>
+          {console.log(`in modal ${selectedFile}`)}
           <input
             type="file"
             accept=".pdf"
+            ref={fileInputRef}
             id={styles["file-input"]}
             onChange={handleFileChange}
           />
