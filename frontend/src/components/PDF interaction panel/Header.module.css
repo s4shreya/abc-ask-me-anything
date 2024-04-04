@@ -13,10 +13,18 @@
   width: 175px;
   border: 1px solid #000000;
   text-align: center;
+  background: none;
+  color: #000000;
 }
 
 .add-button {
   position: relative;
   top: 3px;
   margin-right: 5px;
+}
+
+.upload:hover {
+  cursor: pointer;
+  background-color: #44924c;
+  color: white;
 }
