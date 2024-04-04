@@ -1,4 +1,5 @@
 import Header from "./Header";
+import QuestionInput from "./QuestionInput";
 
 const PdfInteractionPanel = (props) => {
     const uploaded = props.uploaded;
@@ -6,6 +7,7 @@ const PdfInteractionPanel = (props) => {
   return (
     <div>
         <Header />
+        <QuestionInput />
     </div>
   )
 }
