@@ -39,7 +39,6 @@ const UploadPdfModal = ({ isOpen, onClose, onUpload }) => {
         </span>
         <h2>Upload PDF</h2>
         <div className={styles["input-container"]}>
-          {console.log(`in modal ${selectedFile}`)}
           <input
             type="file"
             accept=".pdf"

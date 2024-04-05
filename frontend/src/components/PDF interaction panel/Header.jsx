@@ -13,7 +13,6 @@ const Header = () => {
   const baseURL = BASE_URL;
 
   const pdfUploadHandler = async (uploadedFile) => {
-    console.log(`uploaded file is: ${uploadedFile}`);
     try {
       const formData = new FormData();
       formData.append("file", uploadedFile);
