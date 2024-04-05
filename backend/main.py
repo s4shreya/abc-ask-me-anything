@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, Depends
+from fastapi import FastAPI, File, UploadFile, HTTPException, Depends, Body
 from fastapi.responses import JSONResponse
 from typing import Annotated, List
 import models
@@ -7,7 +7,7 @@ from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 import os
-from models import PDF
+from models import PDF, Question
 import fitz  # PyMuPDF
 
 # creates an object/instance of FastAPI()
@@ -100,3 +100,17 @@ def get_all_pdfs():
     db.close()
     return pdfs
 
+# post API to store question asked by user in the database
+@app.post("/questions/")
+async def create_question(question: str = Body(...), db: Session = Depends(get_database)):
+    db_question = Question(question=question)
+    db.add(db_question)
+    db.commit()
+    db.refresh(db_question)
+    return db_question
+
+# get API to get all the data from questions table
+@app.get("/questions/")
+def get_questions(db: Session = Depends(get_database)):
+    questions = db.query(Question).all()
+    return questions

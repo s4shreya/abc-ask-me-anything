@@ -16,3 +16,11 @@ class PDF(Base):
     content = Column(Text)
     upload_date = Column(DateTime, default=datetime.now)
     size = Column(Integer)
+
+# questions table in database along with answers
+class Question(Base):
+    __tablename__ = "questions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    question = Column(String, index=True)
+    answer = Column(Text, default=None)

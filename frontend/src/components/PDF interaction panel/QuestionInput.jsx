@@ -1,23 +1,28 @@
+import axios from "axios";
+
 import styles from "./QuestionInput.module.css";
 import { LuSendHorizonal } from "react-icons/lu";
+import { BASE_URL } from "../../../config";
 
 const QuestionInput = ({ question, onQuestionSubmit, setQuestion }) => {
-  const submitQuestionHandler = (event) => {
+  const baseURL = BASE_URL;
+
+  const submitQuestionHandler = async (event) => {
     event.preventDefault();
-    onQuestionSubmit();
     // Check if question is not empty
     if (question.trim() === "") {
       return;
     }
-    // try {
-    //   // Submit question to backend
-    //   await axios.post("http://your-backend-url/store-question", { question });
+    try {
+      // Submits question to backend
+      await axios.post(`${baseURL}/questions/`,  question );
 
-    //   // Clear input field
-    //   setQuestion("");
-    // } catch (error) {
-    //   console.error("Error submitting question:", error);
-    // }
+      // Clear input field
+      setQuestion("");
+    } catch (error) {
+      console.error("Error submitting question:", error);
+    }
+    onQuestionSubmit();
   };
 
   return (
