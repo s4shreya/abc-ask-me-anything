@@ -9,9 +9,15 @@ from datetime import datetime
 import os
 from models import PDF, Question
 import fitz  # PyMuPDF
+# from answer_generation import generate_answer
+
+from transformers import pipeline
 
 # creates an object/instance of FastAPI()
 app = FastAPI()
+
+# Initialize the pipeline for question answering
+qa_pipeline = pipeline("question-answering", model="distilbert/distilbert-base-cased-distilled-squad", revision="626af31")
 
 # list of allowed origins to connect to our FastAPI application
 origins = ["http://localhost:5173"]
@@ -55,41 +61,81 @@ def extract_text_from_pdf(file_path: str) -> str:
     return text
 
 
+
+# def generate_answer(question: str, text: str) -> str:
+    
+
+
+
 # API endpoints of our application
 
 
 # post API to upload pdf document and save it in uploaded_pdfs folder
-@app.post("/upload/")
-async def upload_pdf(file: UploadFile = File(...)):
-    # Create a directory to store the files if it doesn't exist
-    if not os.path.exists("uploaded_pdfs"):
-        os.makedirs("uploaded_pdfs")
+# @app.post("/upload/")
+# async def upload_pdf(file: UploadFile = File(...)):
+#     # Create a directory to store the files if it doesn't exist
+#     if not os.path.exists("uploaded_pdfs"):
+#         os.makedirs("uploaded_pdfs")
 
-    # Save the uploaded file to the specified directory
-    with open(f"uploaded_pdfs/{file.filename}", "wb") as f:
+#     # Save the uploaded file to the specified directory
+#     with open(f"uploaded_pdfs/{file.filename}", "wb") as f:
+#         f.write(await file.read())
+
+#     # Extract text from the uploaded PDF
+#     file_path = f"uploaded_pdfs/{file.filename}"
+#     text = extract_text_from_pdf(file_path)
+
+#     # Get file size
+#     file_size = os.path.getsize(file_path)
+
+#     # Store file in database
+#     db = SessionLocal()
+#     db_pdf = PDF(
+#         filename=file.filename, content=text, upload_date=datetime.now(), size=file_size
+#     )
+#     db.add(db_pdf)
+#     db.commit()
+#     # db.refresh(db_pdf)
+#     db.close()
+
+#     return JSONResponse(
+#         status_code=201,
+#         content={"message": "File uploaded and text extracted successfully"},
+#     )
+
+
+
+
+
+
+@app.post("/upload/")
+async def upload_pdf(file: UploadFile = File(...), question: str = None, db: Session = Depends(get_database)):
+    # Save the uploaded file to a directory
+    upload_folder = "uploaded_pdfs"
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+
+    file_path = os.path.join(upload_folder, file.filename)
+    with open(file_path, "wb") as f:
         f.write(await file.read())
 
     # Extract text from the uploaded PDF
-    file_path = f"uploaded_pdfs/{file.filename}"
     text = extract_text_from_pdf(file_path)
+
+    # Generate answer to the question (if provided)
+    answer = None
+    if question:
+        answer = qa_pipeline(question=question, context=text)
 
     # Get file size
     file_size = os.path.getsize(file_path)
 
     # Store file in database
-    db = SessionLocal()
-    db_pdf = PDF(
-        filename=file.filename, content=text, upload_date=datetime.now(), size=file_size
-    )
-    db.add(db_pdf)
-    db.commit()
-    # db.refresh(db_pdf)
-    db.close()
+    pdf = PDF(filename=file.filename, content=text, upload_date=datetime.now(), size=file_size)
+    # db_pdf = crud.create_pdf(db=db, pdf=pdf)
 
-    return JSONResponse(
-        status_code=201,
-        content={"message": "File uploaded and text extracted successfully"},
-    )
+    return {"message": "File uploaded successfully", "answer": answer}
+
 
 
 # get API to retreive all the pdfs and metadata from SQLite database
@@ -114,3 +160,13 @@ async def create_question(question: str = Body(...), db: Session = Depends(get_d
 def get_questions(db: Session = Depends(get_database)):
     questions = db.query(Question).all()
     return questions
+
+
+# @app.post("/generate-answer")
+# def generate_answer_endpoint(question: str):
+#     extracted_text = "..."  # Get the extracted text from the PDF
+#     answer = generate_answer(extracted_text, question)
+#     return {"answer": answer}
+
+
+
