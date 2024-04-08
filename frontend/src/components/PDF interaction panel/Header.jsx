@@ -6,13 +6,14 @@ import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.svg";
 import { FiPlusCircle } from "react-icons/fi";
 import UploadPdfModal from "../upload pdf modal/UploadPdfModal";
-import { BASE_URL } from "../../../config";
+// import { BASE_URL } from "../../../config";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(null);
 
-  const baseURL = BASE_URL;
+  // const baseURL = BASE_URL;
+  const baseURL = "http://localhost:8000";
 
   const pdfUploadHandler = async (uploadedFile) => {
     try {

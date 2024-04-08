@@ -4,11 +4,9 @@ import ContentContainer from "./ContentContainer";
 import Header from "./Header";
 import QuestionInput from "./QuestionInput";
 
-const PdfInteractionPanel = (props) => {
+const PdfInteractionPanel = () => {
   const [question, setQuestion] = useState("");
   const [QAList, setQAList] = useState([]);
-
-  const uploaded = props.uploaded;
 
   const onQuestionSubmit = () => {
     console.log(`question is ${question}`);
