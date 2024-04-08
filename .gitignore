@@ -16,7 +16,7 @@ __pycache__
 *.db
 *.pdf
 */*.env
-config.js
+# config.js
 
 # Editor directories and files
 .vscode/*

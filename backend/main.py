@@ -14,7 +14,7 @@ import fitz  # PyMuPDF
 app = FastAPI()
 
 # list of allowed origins to connect to our FastAPI application
-origins = ["http://localhost:5173"]
+origins = ["http://localhost:5173", "https://abc-ask-me-anything-frontend.vercel.app/"]
 
 # handles CORS policy
 app.add_middleware(
@@ -100,14 +100,18 @@ def get_all_pdfs():
     db.close()
     return pdfs
 
+
 # post API to store question asked by user in the database
 @app.post("/questions/")
-async def create_question(question: str = Body(...), db: Session = Depends(get_database)):
+async def create_question(
+    question: str = Body(...), db: Session = Depends(get_database)
+):
     db_question = Question(question=question)
     db.add(db_question)
     db.commit()
     db.refresh(db_question)
     return db_question
+
 
 # get API to get all the data from questions table
 @app.get("/questions/")

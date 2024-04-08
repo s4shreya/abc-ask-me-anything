@@ -2,11 +2,10 @@ import axios from "axios";
 
 import styles from "./QuestionInput.module.css";
 import { LuSendHorizonal } from "react-icons/lu";
-// import { BASE_URL } from "../../../config";
+import { BASE_URL } from "../../../config";
 
 const QuestionInput = ({ question, onQuestionSubmit, setQuestion }) => {
-  // const baseURL = BASE_URL;
-  const baseURL = "http://localhost:8000";
+  const baseURL = BASE_URL;
 
   const submitQuestionHandler = async (event) => {
     event.preventDefault();

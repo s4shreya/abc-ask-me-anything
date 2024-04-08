@@ -1,4 +1,4 @@
-// import { BASE_URL } from "../../config";
+import { BASE_URL } from "../../config";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -10,8 +10,7 @@ const Documents = () => {
   const [loading, setLoading] = useState(false);
   const [documents, setDocuments] = useState([]);
 
-  // const baseURL = BASE_URL;
-  const baseURL = "http://localhost:8000";
+  const baseURL = BASE_URL;
 
   useEffect(() => {
     setLoading(true);
