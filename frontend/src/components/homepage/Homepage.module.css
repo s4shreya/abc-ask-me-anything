@@ -66,7 +66,7 @@
   color: #bdffa3;
 }
 
-.center-buttons button {
+.center-buttons a {
   background-color: rgb(255, 255, 255);
   border-radius: 12px;
   height: 68px;
@@ -74,19 +74,12 @@
   width: 200px;
   margin: 0 30px;
   transition: transform 0.5s;
-}
-
-.center-buttons a {
   text-decoration: none;
   color: black;
   font-weight: 700;
 }
-
-.center-buttons button:last-child {
+.center-buttons a:last-child {
   background-color: #ffffff26;
-}
-
-.center-buttons button:last-child a {
   color: white;
 }
 
@@ -96,14 +89,4 @@
   letter-spacing: -0.3px;
   line-height: 1.8em;
   margin: auto;
-}
-
-.center-buttons button:hover {
-  background-color: currentColor;
-  cursor: pointer;
-  transform: scale(1.1, 1.1);
-}
-
-.center-buttons button:last-child:hover {
-  background-color: #ffffff26;
 }

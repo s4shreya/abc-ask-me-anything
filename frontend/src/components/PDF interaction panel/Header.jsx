@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import styles from "./Header.module.css";
 import logo from "../../assets/images/logo.svg";
@@ -32,7 +33,9 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <img src={logo} alt="AI Planet logo" height={41} width={105} />
+      <Link to="/">
+        <img src={logo} alt="AI Planet logo" height={41} width={105} />
+      </Link>
       <button className={styles.upload} onClick={openModal}>
         <FiPlusCircle className={styles["add-button"]} />
         Upload PDF

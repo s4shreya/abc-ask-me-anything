@@ -1,11 +1,13 @@
-import styles from './ContentContainer.module.css';
+import styles from "./ContentContainer.module.css";
 
-const ContentContainer = ({QAList}) => {
+const ContentContainer = ({ QAList }) => {
   return (
-    <div>ContentContainer:
-{QAList.map(qa => 
-    <div>{qa.question}</div>)}
-    </div>
-  )
-}
-export default ContentContainer
+    <main className={styles.container}>
+      <h2 className={styles["sub-heading"]}>Question-Answers (QA)</h2>
+      {QAList.map((qa) => (
+        <p className={styles.text}>Q: {qa.question}</p>
+      ))}
+    </main>
+  );
+};
+export default ContentContainer;

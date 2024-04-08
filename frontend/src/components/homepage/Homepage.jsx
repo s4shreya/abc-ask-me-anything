@@ -33,12 +33,12 @@ const Homepage = () => {
           </h1>
         </section>
         <section className={styles["center-buttons"]}>
-          <button>
+          {/* <button> */}
             <Link to="/upload">Upload new PDF</Link>
-          </button>
-          <button>
+          {/* </button>
+          <button> */}
             <Link to={"/documents"}>List uploaded PDFs</Link>
-          </button>
+          {/* </button> */}
         </section>
         <section className={styles.description}>
           <p>
