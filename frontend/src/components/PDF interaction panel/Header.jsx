@@ -10,6 +10,7 @@ import { BASE_URL } from "../../../config";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fileUploaded, setFileUploaded] = useState(null);
 
   const baseURL = BASE_URL;
 
@@ -22,7 +23,8 @@ const Header = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("File uploaded successfully");
+      setFileUploaded(uploadedFile.name);
+      console.log("File uploaded successfully", uploadedFile.name);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -36,10 +38,20 @@ const Header = () => {
       <Link to="/">
         <img src={logo} alt="AI Planet logo" height={41} width={105} />
       </Link>
-      <button className={styles.upload} onClick={openModal}>
-        <FiPlusCircle className={styles["add-button"]} />
-        Upload PDF
-      </button>
+      {fileUploaded ? (
+        <>
+          <span className={styles.filename}> {fileUploaded}</span>
+          <button className={styles.upload} style={{ background: "green" }}>
+            Uploaded PDF
+          </button>
+        </>
+      ) : (
+        <button className={styles.upload} onClick={openModal}>
+          <FiPlusCircle className={styles["add-button"]} />
+          Upload PDF
+        </button>
+      )}
+
       <UploadPdfModal
         isOpen={isModalOpen}
         onClose={closeModal}
