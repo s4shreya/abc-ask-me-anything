@@ -14,7 +14,11 @@ import fitz  # PyMuPDF
 app = FastAPI()
 
 # list of allowed origins to connect to our FastAPI application
-origins = ["http://localhost:5173", "https://abc-ask-me-anything-frontend.vercel.app/"]
+origins = [
+    "http://localhost:5173",
+    "https://abc-ask-me-anything-frontend.vercel.app/",
+    "https://abc-ask-me-anything-frontend.vercel.app",
+]
 
 # handles CORS policy
 app.add_middleware(
