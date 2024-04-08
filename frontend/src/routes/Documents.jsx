@@ -15,7 +15,7 @@ const Documents = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${baseURL}pdfs/`)
+      .get(`${baseURL}pdfs`)
       .then((response) => {
         console.log(`documents ${JSON.stringify(response.data)}`);
         setDocuments(response.data);

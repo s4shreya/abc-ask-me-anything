@@ -62,7 +62,7 @@ def extract_text_from_pdf(file_path: str) -> str:
 
 
 # post API to upload pdf document and save it in uploaded_pdfs folder
-@app.post("/upload/")
+@app.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
     # Create a directory to store the files if it doesn't exist
     if not os.path.exists("uploaded_pdfs"):
@@ -96,7 +96,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
 
 # get API to retreive all the pdfs and metadata from SQLite database
-@app.get("/pdfs/")
+@app.get("/pdfs")
 def get_all_pdfs():
     db = SessionLocal()
     pdfs = db.query(PDF).all()
@@ -105,7 +105,7 @@ def get_all_pdfs():
 
 
 # post API to store question asked by user in the database
-@app.post("/questions/")
+@app.post("/questions")
 async def create_question(
     question: str = Body(...), db: Session = Depends(get_database)
 ):
@@ -117,7 +117,7 @@ async def create_question(
 
 
 # get API to get all the data from questions table
-@app.get("/questions/")
+@app.get("/questions")
 def get_questions(db: Session = Depends(get_database)):
     questions = db.query(Question).all()
     return questions

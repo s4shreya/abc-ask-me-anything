@@ -15,7 +15,7 @@ const QuestionInput = ({ question, onQuestionSubmit, setQuestion }) => {
     }
     try {
       // Submits question to backend
-      await axios.post(`${baseURL}/questions/`, question);
+      await axios.post(`${baseURL}questions`, question);
 
       // Clear input field
       setQuestion("");
