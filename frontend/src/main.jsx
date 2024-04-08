@@ -6,6 +6,7 @@ import Home from "./routes/Home.jsx";
 import "./index.css";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import UploadPdf from "./routes/UploadPdf.jsx";
+import Documents from "./routes/Documents.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/upload",
     element: <UploadPdf />,
+  },
+  {
+    path: "/documents",
+    element: <Documents />,
   },
 ]);
 
