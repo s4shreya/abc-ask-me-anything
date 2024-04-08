@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import styles from "./Homepage.module.css";
 import homepage_logo from "../../assets/images/homepage_logo.svg";
 
@@ -24,38 +26,29 @@ const Homepage = () => {
         </nav>
       </header>
       <main className={styles["main-section"]}>
-        <section className="hero">
-          <div className="container">
-            <h1>Welcome to AIPlanet</h1>
-            <p>Explore the future with AI technologies</p>
-            <a href="/about" className="btn">
-              Learn More
-            </a>
-          </div>
+        <section className={styles["sub-heading"]}>
+          <h1>
+            We make reliable <br />
+            <span className={styles["ai-text"]}>AI accessible</span> for all
+          </h1>
         </section>
-        <section className="features">
-          <div className="container">
-            <div className="feature">
-              <img src="/images/feature1.jpg" alt="Feature 1" />
-              <h2>Feature 1</h2>
-              <p>Description of feature 1</p>
-            </div>
-            <div className="feature">
-              <img src="/images/feature2.jpg" alt="Feature 2" />
-              <h2>Feature 2</h2>
-              <p>Description of feature 2</p>
-            </div>
-            <div className="feature">
-              <img src="/images/feature3.jpg" alt="Feature 3" />
-              <h2>Feature 3</h2>
-              <p>Description of feature 3</p>
-            </div>
-          </div>
+        <section className={styles["center-buttons"]}>
+          <button>
+            <Link to="/upload">Upload new PDF</Link>
+          </button>
+          <button>
+            <Link to={"/documents"}>List uploaded PDFs</Link>
+          </button>
+        </section>
+        <section className={styles.description}>
+          <p>
+            Gen AI has enormous potential, but hindered by privacy and
+            reliability issues including hallucinations and inaccuracies.
+            Unlocking AI's potential, we enable enterprises with secure and
+            reliable Generative AI applications.
+          </p>
         </section>
       </main>
-      <footer>
-        <p>&copy; 2024 AIPlanet. All rights reserved.</p>
-      </footer>
     </div>
   );
 };
