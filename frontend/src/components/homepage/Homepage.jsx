@@ -1,22 +1,24 @@
 import styles from "./Homepage.module.css";
+import homepage_logo from "../../assets/images/homepage_logo.svg";
 
 const Homepage = () => {
   return (
     <div className={styles.homepage}>
       <header className={styles.header}>
-        <nav>
+        <img src={homepage_logo} alt="AI Planet logo" height={41} width={105} />
+        <nav className={styles.navbar}>
           <ul>
             <li>
-              <a href="#">Home</a>
+              <a href="#">Products</a>
             </li>
             <li>
-              <a href="#">About</a>
+              <a href="#">Models</a>
             </li>
             <li>
-              <a href="#">Services</a>
+              <a href="#">Community</a>
             </li>
             <li>
-              <a href="#">Contact</a>
+              <a href="#">Contact Us</a>
             </li>
           </ul>
         </nav>
